@@ -1,0 +1,7 @@
+@service=http://localhost:8080
+
+### check health
+GET {{service}}/actuator/health
+
+### calculate ocuppancy
+GET {{service}}/roomOccupancy
