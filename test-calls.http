@@ -4,4 +4,4 @@
 GET {{service}}/actuator/health
 
 ### calculate ocuppancy
-GET {{service}}/roomOccupancy
+GET {{service}}/roomOccupancy?premiumRooms=3&economyRooms=3

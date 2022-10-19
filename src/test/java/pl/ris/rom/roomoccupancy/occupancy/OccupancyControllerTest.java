@@ -21,7 +21,23 @@ public class OccupancyControllerTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    void testGetRoomOccupancy() {
+    void getRoomOccupancyShouldReturnOK() {
+        // given
+        String uriString = UriComponentsBuilder.fromUriString("http://localhost").port(port)
+            .path("roomOccupancy")
+            .queryParam("premiumRooms", 0)
+            .queryParam("economyRooms", 0)
+            .toUriString(); 
+
+        // when
+        ResponseEntity<String> response = restTemplate.getForEntity(uriString, String.class);
+
+        // then
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    void testGetRoomOccupancyShouldReturn400BadRequestIfRoomsAreNotSpecified() {
         // given
         String uriString = UriComponentsBuilder.fromUriString("http://localhost").port(port)
             .path("roomOccupancy")
@@ -31,6 +47,36 @@ public class OccupancyControllerTest {
         ResponseEntity<String> response = restTemplate.getForEntity(uriString, String.class);
 
         // then
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    void testGetRoomOccupancyShouldReturn400BadRequestIfEconomyRoomsAreNotSpecified() {
+        // given
+        String uriString = UriComponentsBuilder.fromUriString("http://localhost").port(port)
+            .path("roomOccupancy")
+            .queryParam("premiumRooms", 0)
+            .toUriString(); 
+
+        // when
+        ResponseEntity<String> response = restTemplate.getForEntity(uriString, String.class);
+
+        // then
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    void testGetRoomOccupancyShouldReturn400BadRequestIfPremiumRoomsAreNotSpecified() {
+        // given
+        String uriString = UriComponentsBuilder.fromUriString("http://localhost").port(port)
+            .path("roomOccupancy")
+            .queryParam("economyRooms", 0)
+            .toUriString(); 
+
+        // when
+        ResponseEntity<String> response = restTemplate.getForEntity(uriString, String.class);
+
+        // then
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 }
