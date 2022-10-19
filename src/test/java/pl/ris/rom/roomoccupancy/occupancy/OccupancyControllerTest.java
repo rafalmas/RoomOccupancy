@@ -30,10 +30,11 @@ public class OccupancyControllerTest {
             .toUriString(); 
 
         // when
-        ResponseEntity<String> response = restTemplate.getForEntity(uriString, String.class);
+        ResponseEntity<OccupiedRooms> response = restTemplate.getForEntity(uriString, OccupiedRooms.class);
 
         // then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
     }
 
     @Test
